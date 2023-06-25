@@ -3,7 +3,7 @@ package net.pineclone.simplecmd.mixin;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
-import net.pineclone.simplecmd.event.PlayerDeathCallBack;
+import net.pineclone.simplecmd.event.PlayerDyingCallBack;
 import net.pineclone.simplecmd.event.PlayerHurtCallBack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +27,7 @@ public abstract class PlayerEntityMixin {
 
     @Inject(method = "onDeath" , at=@At("TAIL"), cancellable = true)
     public void onDeath(DamageSource source, CallbackInfo info) {
-        ActionResult result = PlayerDeathCallBack.EVENT.invoker().interact((PlayerEntity)(Object)this , source);
+        ActionResult result = PlayerDyingCallBack.EVENT.invoker().interact((PlayerEntity)(Object)this , source);
 
         if(result == ActionResult.FAIL) {
             info.cancel();

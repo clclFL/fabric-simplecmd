@@ -1,13 +1,16 @@
 package net.pineclone.simplecmd.cmds.tpa.status;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.pineclone.simplecmd.event.*;
-import net.pineclone.simplecmd.utils.Ticker;
-import net.pineclone.simplecmd.utils.TickerTask;
+import net.pineclone.simplecmd.utils.IEntityDataSaver;
+import net.pineclone.simplecmd.utils.TomlUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,10 +20,10 @@ public class TPAManager {
 
     private static final ConcurrentHashMap<PlayerEntity, Optional<TPARequest>> SENDERS = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<PlayerEntity, RequestList> RECEIVERS = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<PlayerEntity, TickerTask.DelayTask> COOLED_DOWN = new ConcurrentHashMap<>();
+    public static final String TPA_COOLED_TIME = "tpa_cooled_time";
 
     public static void register() {
-        PlayerDeathCallBack.EVENT.register((player, damageSource) -> {
+        PlayerDyingCallBack.EVENT.register((player, damageSource) -> {
             SENDERS.get(player).ifPresent(deadManRequest -> {
                 deadManRequest.cancel("cmd.tpa.cancel_due_to_death");
                 resetCooledTime(player);
@@ -29,6 +32,7 @@ public class TPAManager {
         });
 
         PlayerHurtCallBack.EVENT.register((player, damageSource, amount) -> {
+            if (!TomlUtils.modToml.getBoolean("cmd.tpa.hurt_break_tpa")) return ActionResult.PASS;
             SENDERS.get(player).ifPresent(hurtManRequest -> {
                 if (hurtManRequest.getStatus() instanceof PreTeleport)
                     hurtManRequest.cancel("cmd.tpa.cancel_due_to_hurt");
@@ -43,19 +47,22 @@ public class TPAManager {
         });
 
         PlayerLogoutCallBack.EVENT.register(player -> {
-            if (COOLED_DOWN.containsKey(player)) {
-                System.out.println("contains");
-                COOLED_DOWN.get(player).pause();
-            }
-            SENDERS.get(player).ifPresent(TPARequest::cancel);
+            Optional<TPARequest> its = SENDERS.get(player);
+            if (its == null) return ActionResult.PASS;
+            its.ifPresent(TPARequest::cancel);
             return ActionResult.PASS;
         });
 
-        PlayerSpawnCallBack.EVENT.register(player -> {
-            if (COOLED_DOWN.containsKey(player)) {
-                COOLED_DOWN.get(player).resume();
-            }
-            return ActionResult.PASS;
+        ServerTickEvents.START_SERVER_TICK.register(server -> {
+            if (server.getTicks() % 20 != 0) return;
+            server.getPlayerManager().getPlayerList().forEach(player -> {
+                NbtCompound nbt = ((IEntityDataSaver) player).getPersistentData();
+                long time = nbt.getLong(TPA_COOLED_TIME);
+                if (time == 0) return;
+                if (time == 1) player.sendMessage(Text.translatable("cmd.tpa.cooled_down_reset")
+                        .formatted(Formatting.GREEN), false);
+                removeCooledTime((IEntityDataSaver) player, 1);
+            });
         });
 
     }
@@ -111,29 +118,45 @@ public class TPAManager {
         return RECEIVERS.get(receiver);
     }
 
-    public static void setCooledTime(PlayerEntity player, long cooledDown) {
-        TickerTask.DelayTask task = TickerTask.delay(() -> {
-            COOLED_DOWN.remove(player);
-            player.sendMessage(Text.translatable("cmd.tpa.cooled_down_reset").formatted(Formatting.GREEN), false);
-        }, cooledDown);
-        COOLED_DOWN.put(player, task);
-        Ticker.schedule(task);
-    }
-
     public static long getRemainingCooledTime(PlayerEntity player) {
-        if (!COOLED_DOWN.containsKey(player)) return 0;
-        return COOLED_DOWN.get(player).getRemainingTicks() / 20;
+        NbtCompound nbt = ((IEntityDataSaver) player).getPersistentData();
+        return nbt.getLong(TPA_COOLED_TIME);
     }
 
-    public static boolean isCooledDown(PlayerEntity player) {
-        return COOLED_DOWN.containsKey(player);
+    public static boolean isCoolingDown(PlayerEntity player) {
+        NbtCompound nbt = ((IEntityDataSaver) player).getPersistentData();
+        long time = nbt.getLong(TPA_COOLED_TIME);
+        return (time > 0);
     }
 
-    public static boolean resetCooledTime(PlayerEntity player) {
-        if (!COOLED_DOWN.containsKey(player)) return false;
-        COOLED_DOWN.get(player).cancel();
-        COOLED_DOWN.remove(player);
-        return true;
+    public static void resetCooledTime(PlayerEntity player) {
+        NbtCompound nbt = ((IEntityDataSaver) player).getPersistentData();
+        nbt.putLong(TPA_COOLED_TIME, 0);
+    }
+
+    public static void setCooledTime(PlayerEntity player, long value) {
+        NbtCompound nbt = ((IEntityDataSaver) player).getPersistentData();
+        nbt.putLong(TPA_COOLED_TIME, value);
+    }
+
+    public static long addCooledTime(IEntityDataSaver player, long value) {
+        NbtCompound nbt = player.getPersistentData();
+        long currentValue = nbt.getLong(TPA_COOLED_TIME);
+        long maxValue = TomlUtils.modToml.getLong("cmd.tpa.max_cooled_time");
+
+        currentValue = MathHelper.clamp(currentValue + value, 0, maxValue);
+        nbt.putLong(TPA_COOLED_TIME, currentValue);
+        return currentValue;
+    }
+
+    public static long removeCooledTime(IEntityDataSaver player, long value) {
+        NbtCompound nbt = player.getPersistentData();
+        long currentValue = nbt.getLong(TPA_COOLED_TIME);
+        long maxValue = TomlUtils.modToml.getLong("cmd.tpa.max_cooled_time");
+
+        currentValue = MathHelper.clamp(currentValue - value, 0, maxValue);
+        nbt.putLong(TPA_COOLED_TIME, currentValue);
+        return currentValue;
     }
 
     public static class RequestList {

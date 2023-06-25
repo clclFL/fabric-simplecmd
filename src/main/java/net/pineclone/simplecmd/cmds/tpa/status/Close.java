@@ -18,7 +18,7 @@ public class Close extends TPARequestStatus {
         request.getReceiver().sendMessage(Text.translatable("cmd.tpaaccept.done_teleporting", request.getSender().getDisplayName().getString())
                 .formatted(Formatting.GOLD , Formatting.BOLD) , false);
 
-        long coldDown = MathHelper.clamp(TomlUtils.modToml.getLong("cmd.tpa.cold_down"), 0, 3600) * 20;
+        long coldDown = MathHelper.clamp(TomlUtils.modToml.getLong("cmd.tpa.max_cooled_time"), 0, 3600);
         if (coldDown != 0) {
             TPAManager.setCooledTime(request.getSender() , coldDown);
         }

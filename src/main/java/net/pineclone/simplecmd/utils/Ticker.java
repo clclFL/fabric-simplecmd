@@ -17,7 +17,6 @@ public class Ticker {
             if (TASKS.isEmpty()) return;
             int ticks = Ticker.server.getTicks();
             TASKS.forEach(t -> t.exec(ticks));
-
         });
     }
 

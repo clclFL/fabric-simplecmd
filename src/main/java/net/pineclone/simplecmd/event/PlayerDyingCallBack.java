@@ -6,10 +6,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 
-public interface PlayerDeathCallBack {
-    Event<PlayerDeathCallBack> EVENT = EventFactory.createArrayBacked(PlayerDeathCallBack.class,
+public interface PlayerDyingCallBack {
+    Event<PlayerDyingCallBack> EVENT = EventFactory.createArrayBacked(PlayerDyingCallBack.class,
             (listeners) -> (player , damageSource) -> {
-                for (PlayerDeathCallBack event : listeners) {
+                for (PlayerDyingCallBack event : listeners) {
                     ActionResult result = event.interact(player, damageSource);
 
                     if (result != ActionResult.PASS) {

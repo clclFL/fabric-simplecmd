@@ -41,7 +41,7 @@ public class TPACommand {
                                 return 0;
                             }
 
-                            if (TPAManager.isCooledDown(sender)) {
+                            if (TPAManager.isCoolingDown(sender)) {
                                 sender.sendMessage(Text.translatable("cmd.tpa.is_in_cooldown", TPAManager.getRemainingCooledTime(sender)).formatted(Formatting.RED));
                                 return 0;
                             }
