@@ -3,7 +3,8 @@ package net.pineclone.simplecmd.cmds.tpa.status;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class Timeout extends TPARequestStatus {
+public class Timeout
+        extends TPARequestStatus {
 
     public Timeout(TPARequest request) {
         super(request);

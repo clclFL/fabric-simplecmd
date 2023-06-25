@@ -3,7 +3,8 @@ package net.pineclone.simplecmd.cmds.tpa.status;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class Cancel extends TPARequestStatus {
+public class Cancel
+        extends TPARequestStatus {
 
     private String reason;
 

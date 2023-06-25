@@ -1,11 +1,9 @@
 package net.pineclone.simplecmd;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.util.ActionResult;
 import net.pineclone.simplecmd.cmds.CommandRegistryHandler;
-import net.pineclone.simplecmd.cmds.tpa.status.PreTeleport;
+import net.pineclone.simplecmd.cmds.tpa.status.Teleporting;
 import net.pineclone.simplecmd.cmds.tpa.status.TPAManager;
-import net.pineclone.simplecmd.event.PlayerHurtCallBack;
 import net.pineclone.simplecmd.utils.Ticker;
 import net.pineclone.simplecmd.utils.TomlUtils;
 import net.pineclone.simplecmd.utils.Utils;
@@ -31,6 +29,7 @@ public class SimpleCmdMod implements ModInitializer {
 
         Ticker.register();
         TPAManager.register();
+        Teleporting.register();
         CommandRegistryHandler.register();
 
 /*        PlayerHurtCallBack.EVENT.register((player ,damageSource, amount) -> {

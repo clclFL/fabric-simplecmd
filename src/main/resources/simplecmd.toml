@@ -14,14 +14,14 @@ enable_tpa=true
 # Define how long a require will last after a player send it, after this period, the request
 # will be cancel automatically.
 # Range : [10 , 1000]
-max_wait_time=10
+max_wait_time=20
 # Define if player's moving will break the waiting status.
 move_break_tpa=true
 # Define if player's getting hurt will break the waiting status.
 hurt_break_tpa=true
 # If one single time of teleporting succeed, how long is the time between to the next-time teleporting.
 # Range : [0 , 3600]
-cold_down=10
+max_cooled_time=30
 
 [cmd.tpaaccept]
 # Define how long the sender have to wait before teleporting after the receiver has accepted the request.

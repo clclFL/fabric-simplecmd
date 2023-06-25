@@ -5,7 +5,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.pineclone.simplecmd.utils.TomlUtils;
 
-public class Close extends TPARequestStatus {
+public class Close
+        extends TPARequestStatus {
 
     public Close(TPARequest request) {
         super(request);

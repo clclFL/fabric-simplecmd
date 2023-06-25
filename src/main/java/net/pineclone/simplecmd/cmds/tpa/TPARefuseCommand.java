@@ -8,7 +8,6 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.pineclone.simplecmd.cmds.tpa.status.PreTeleport;
 import net.pineclone.simplecmd.cmds.tpa.status.TPAManager;
 import net.pineclone.simplecmd.cmds.tpa.status.TPARequest;
 

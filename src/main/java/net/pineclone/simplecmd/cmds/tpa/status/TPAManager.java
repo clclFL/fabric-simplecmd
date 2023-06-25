@@ -33,15 +33,19 @@ public class TPAManager {
 
         PlayerHurtCallBack.EVENT.register((player, damageSource, amount) -> {
             if (!TomlUtils.modToml.getBoolean("cmd.tpa.hurt_break_tpa")) return ActionResult.PASS;
-            SENDERS.get(player).ifPresent(hurtManRequest -> {
-                if (hurtManRequest.getStatus() instanceof PreTeleport)
+            Optional<TPARequest> its = SENDERS.get(player);
+            if (its == null) return ActionResult.PASS;
+            its.ifPresent(hurtManRequest -> {
+                if (hurtManRequest.getStatus() instanceof Teleporting)
                     hurtManRequest.cancel("cmd.tpa.cancel_due_to_hurt");
             });
             return ActionResult.PASS;
         });
 
         PlayerChangeDimensionCallBack.EVENT.register((player, origin) -> {
-            SENDERS.get(player).ifPresent(changeDimensionRequest -> changeDimensionRequest
+            Optional<TPARequest> its = SENDERS.get(player);
+            if (its == null) return ActionResult.PASS;
+            its.ifPresent(changeDimensionRequest -> changeDimensionRequest
                     .cancel("cmd.tpa.cancel_due_to_change_dimension"));
             return ActionResult.PASS;
         });

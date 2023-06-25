@@ -8,7 +8,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.pineclone.simplecmd.cmds.tpa.status.PreTeleport;
+import net.pineclone.simplecmd.cmds.tpa.status.Teleporting;
 import net.pineclone.simplecmd.cmds.tpa.status.TPAManager;
 import net.pineclone.simplecmd.cmds.tpa.status.TPARequest;
 
@@ -41,7 +41,7 @@ public class TPAAcceptCommand {
 
         //noinspection OptionalGetWithoutIsPresent
         TPARequest currentRequest = requestList.pop().get();
-        currentRequest.update(new PreTeleport(currentRequest));
+        currentRequest.update(new Teleporting(currentRequest));
         return 1;
     }
 
