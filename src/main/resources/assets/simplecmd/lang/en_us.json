@@ -1,0 +1,37 @@
+{
+  "cmd.helloworld.fail.by.no.player": "Can not send \"HelloWorld\" - Player %s does not exist.",
+  "cmd.helloworld.success.by.console": "Console send a \"Hello World\" to you.",
+  "cmd.helloworld.success.by.player": "%s send a \"Hello World\" to you.",
+  "cmd.helloworld.success.to.sender": "successfully send \"Hello World\" to %s.",
+  "cmd.tpa.sender.is.null": "Cannot execute the command - sender cannot be null.",
+  "cmd.tpa.player.cannot.be.found": "Cannot execute the command - Player %s does not exist.",
+  "cmd.tpa.create": "Sending tpa request to %s...",
+  "cmd.tpa.player.popup.msg.for.request.1": "Received one TPA request from %s :",
+  "cmd.tpa.player.popup.msg.for.request.2": "Type \"tpa accept\" to accept the request,",
+  "cmd.tpa.player.popup.msg.for.request.3": "Type \"tpa refuse\" to refuse the request,",
+  "cmd.tpa.player.popup.msg.for.request.4": "Request will last for %s seconds.",
+  "cmd.tpa.not_allow": "Tpa are not allowed!",
+  "cmd.tpa.wait_timeout": "Tpa request Timeout.",
+  "cmd.tpa.remove.last.require": "Cancel last waiting request.",
+  "cmd.tpa.multiple_players_not_allow": "This command cannot target multiple player.",
+  "cmd.tpa.receiver_with_different_dimension": "Cannot send tpa request to the player with different dimension",
+  "cmd.tpa.cancel": "Cancel last tpa request.",
+  "cmd.tpaaccept.no_request_to_reply": "You have no request to replay.",
+  "cmd.tpaaccpet.sender_has_been_accepted": "Request has been accepted, you will be teleported in %s seconds.",
+  "cmd.tpaaccept.receiver_has_accepted": "Request accepted, the teleport will run in %s seconds.",
+  "cmd.tpaaccept.start_teleporting": "Teleporting to %s.",
+  "cmd.tpaaccept.done_teleporting": "Finished teleport with %s",
+  "cmd.tpa.cooled_down_reset": "Tpa cooled down.",
+  "cmd.tpa.is_in_cooldown": "Tpa is still in cooling down, remaining %s seconds.",
+  "cmd.tpaaccept.cancel_due_to_move": "Teleport cancel : cannot move during preparing teleporting.",
+  "cmd.tpa.cancel_due_to_hurt": "Teleport cancel : cannot get hurt during preparing teleporting.",
+  "cmd.tpa.cancel_due_to_death": "Teleport cancel : player died.",
+  "cmd.tpa.cancel_due_to_change_dimension": "Teleport cancel : player change dimension.",
+  "cmd.tpa.unknown_exception_occure": "Unknown exception occur while trying teleporting.",
+  "cmd.tpaaccept.no_request_to_refuse": "You have no request to refuse.",
+  "cmd.tparefuse.request.refuse.1": "Request has been refused.",
+  "cmd.tparefuse.request.refuse.2": "Refuse the request from player %s."
+}
+
+
+

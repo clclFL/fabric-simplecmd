@@ -1,0 +1,29 @@
+# Configuration file for Simple Command Mod.
+
+# This table add some general key-value to define some setting for whole mod.
+[general]
+
+[cmd]
+# The tpa command ,this mod will allow player to type command 'tpa' toward another
+# player, and then if the other player accept the require, the sender will be teleported
+# to the receiver.
+enable_tpa=true
+
+# Notice : For all the config label for time, the time unit is seconds.
+[cmd.tpa]
+# Define how long a require will last after a player send it, after this period, the request
+# will be cancel automatically.
+# Range : [10 , 1000]
+max_wait_time=10
+# Define if player's moving will break the waiting status.
+move_break_tpa=true
+# Define if player's getting hurt will break the waiting status.
+hurt_break_tpa=true
+# If one single time of teleporting succeed, how long is the time between to the next-time teleporting.
+# Range : [0 , 3600]
+cold_down=10
+
+[cmd.tpaaccept]
+# Define how long the sender have to wait before teleporting after the receiver has accepted the request.
+# Range : [0 , 20]
+time_before_teleporting=5

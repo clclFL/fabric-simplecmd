@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "simplecmd",
+  "version": "${version}",
+  "name": "Simple Command",
+  "description": "Define a bundle of simple commands such as tpa, home, back and etc to improve the experience while playing. ",
+  "authors": [
+    "clclfl"
+  ],
+  "contact": {
+    "website": "pineclone.club",
+    "repo": "https://github.com/clclFL/SimpleCmdMod"
+  },
+  "license": "MIT License",
+  "icon": "assets/simplecmd/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.pineclone.simplecmd.client.SimpleCmdClient"
+    ],
+    "main": [
+      "net.pineclone.simplecmd.SimpleCmdMod"
+    ]
+  },
+  "mixins": [
+    "simplecmd.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.10",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  }
+}

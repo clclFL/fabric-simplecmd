@@ -1,0 +1,6 @@
+{
+  "cmd.helloworld.fail.by.no.player": "无法发送“你好世界” - 玩家 %s 不存在.",
+  "cmd.helloworld.success.by.console": "终端 向你发送了“你好世界”.",
+  "cmd.helloworld.success.by.player": "%s 向你发送了“你好世界”.",
+  "cmd.helloworld.success.to.sender": "成功将“你好世界”发送给 %s."
+}
